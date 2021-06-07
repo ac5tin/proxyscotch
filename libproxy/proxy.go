@@ -181,11 +181,13 @@ func proxyHandler(response http.ResponseWriter, request *http.Request) {
 	if len(requestData.Auth.Username) > 0 && len(requestData.Auth.Password) > 0 {
 		proxyRequest.SetBasicAuth(requestData.Auth.Username, requestData.Auth.Password)
 	}
+
+	proxyRequest.Header.Set("User-Agent", "Proxyscotch/1.0")
+
 	for k, v := range requestData.Headers {
 		proxyRequest.Header.Set(k, v)
 	}
 
-	proxyRequest.Header.Set("User-Agent", "Proxyscotch/1.0")
 
 	if len(requestData.Data) > 0 {
 		proxyRequest.Body = ioutil.NopCloser(strings.NewReader(requestData.Data))
